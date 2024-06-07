@@ -14,10 +14,8 @@ class CategoryProvider extends ChangeNotifier {
   TextEditingController categoryNameCtrl = TextEditingController();
   Category? categoryForUpdate;
 
-
   File? selectedImage;
   XFile? imgXFile;
-
 
   CategoryProvider(this._dataProvider);
 
@@ -26,7 +24,6 @@ class CategoryProvider extends ChangeNotifier {
   //TODO: should complete updateCategory
 
   //TODO: should complete submitCategory
-
 
   void pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -42,9 +39,10 @@ class CategoryProvider extends ChangeNotifier {
 
   //TODO: should complete setDataForUpdateCategory
 
-
   //? to create form data for sending image with body
-  Future<FormData> createFormData({required XFile? imgXFile, required Map<String, dynamic> formData}) async {
+  Future<FormData> createFormData(
+      {required XFile? imgXFile,
+      required Map<String, dynamic> formData}) async {
     if (imgXFile != null) {
       MultipartFile multipartFile;
       if (kIsWeb) {
