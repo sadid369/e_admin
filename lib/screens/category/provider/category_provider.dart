@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:developer';
 import 'dart:io';
 import 'package:e_admin/models/api_response.dart';
@@ -23,7 +25,6 @@ class CategoryProvider extends ChangeNotifier {
 
   CategoryProvider(this._dataProvider);
 
-  //TODO: should complete addCategory
   addCategory() async {
     try {
       if (selectedImage == null) {
@@ -58,9 +59,48 @@ class CategoryProvider extends ChangeNotifier {
       rethrow;
     }
   }
-  //TODO: should complete updateCategory
 
-  //TODO: should complete submitCategory
+  updateCategory() async {
+    try {
+      Map<String, dynamic> fromDataMap = {
+        'name': categoryNameCtrl.text,
+        'image': categoryForUpdate?.image ?? ''
+      };
+      final FormData form =
+          await createFormData(imgXFile: imgXFile, formData: fromDataMap);
+      final response = await service.updateItem(
+        endpointUrl: 'categories',
+        itemId: categoryForUpdate?.sId ?? '',
+        itemData: form,
+      );
+      if (response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if (apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+          _dataProvider.getAllCategory();
+        } else {
+          SnackBarHelper.showErrorSnackBar(
+              'Flailed to Update Category ${apiResponse.message} ');
+        }
+      } else {
+        SnackBarHelper.showErrorSnackBar(
+            'Error ${response.body?['message'] ?? response.statusText}');
+      }
+    } catch (e) {
+      print(e);
+      SnackBarHelper.showErrorSnackBar('An Error occurred $e');
+      rethrow;
+    }
+  }
+
+  submitCategory() {
+    if (categoryForUpdate != null) {
+      updateCategory();
+    } else {
+      addCategory();
+    }
+  }
 
   void pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -72,9 +112,28 @@ class CategoryProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete deleteCategory
-
-  //TODO: should complete setDataForUpdateCategory
+  deleteCategory(Category category) async {
+    try {
+      Response response = await service.deleteItem(
+        endpointUrl: 'categories',
+        itemId: category.sId ?? '',
+      );
+      if (response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if (apiResponse.success == true) {
+          SnackBarHelper.showSuccessSnackBar('Category Deleted Successfully');
+          _dataProvider.getAllCategory();
+        }
+      } else {
+        SnackBarHelper.showErrorSnackBar(
+            "Error ${response.body['message'] ?? response.statusText}");
+      }
+    } catch (e) {
+      print(e);
+      SnackBarHelper.showErrorSnackBar('An Error occurred $e');
+      rethrow;
+    }
+  }
 
   //? to create form data for sending image with body
   Future<FormData> createFormData(

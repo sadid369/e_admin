@@ -1,3 +1,5 @@
+import 'package:e_admin/utility/extensions.dart';
+
 import '../../../core/data/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,16 +9,16 @@ import 'add_category_form.dart';
 
 class CategoryListSection extends StatelessWidget {
   const CategoryListSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +34,7 @@ class CategoryListSection extends StatelessWidget {
                 return DataTable(
                   columnSpacing: defaultPadding,
                   // minWidth: 600,
-                  columns: [
+                  columns: const [
                     DataColumn(
                       label: Text("Category Name"),
                     ),
@@ -48,10 +50,13 @@ class CategoryListSection extends StatelessWidget {
                   ],
                   rows: List.generate(
                     dataProvider.categories.length,
-                    (index) => categoryDataRow(dataProvider.categories[index], delete: () {
-                      //TODO: should complete call  deleteCategory
+                    (index) => categoryDataRow(dataProvider.categories[index],
+                        delete: () {
+                      context.categoryProvider
+                          .deleteCategory(dataProvider.categories[index]);
                     }, edit: () {
-                      showAddCategoryForm(context, dataProvider.categories[index]);
+                      showAddCategoryForm(
+                          context, dataProvider.categories[index]);
                     }),
                   ),
                 );
@@ -64,41 +69,49 @@ class CategoryListSection extends StatelessWidget {
   }
 }
 
-DataRow categoryDataRow(Category CatInfo, {Function? edit, Function? delete}) {
+DataRow categoryDataRow(Category catInfo, {Function? edit, Function? delete}) {
   return DataRow(
     cells: [
       DataCell(
         Row(
           children: [
             Image.network(
-              CatInfo.image ?? '',
+              catInfo.image ?? '',
               height: 30,
               width: 30,
-              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                return Icon(Icons.error);
+              errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) {
+                return const Icon(Icons.error);
               },
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(CatInfo.name ?? ''),
+              child: Text(catInfo.name ?? ''),
             ),
           ],
         ),
       ),
-      DataCell(Text(CatInfo.createdAt ?? '')),
-      DataCell(IconButton(
+      DataCell(Text(catInfo.createdAt ?? '')),
+      DataCell(
+        IconButton(
           onPressed: () {
-            if (edit != null) edit();
+            if (edit != null) {
+              edit();
+            }
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.edit,
             color: Colors.white,
-          ))),
+          ),
+        ),
+      ),
       DataCell(IconButton(
           onPressed: () {
-            if (delete != null) delete();
+            if (delete != null) {
+              delete();
+            }
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.delete,
             color: Colors.red,
           ))),
