@@ -108,8 +108,11 @@ void showAddCategoryForm(BuildContext context, Category? category) {
       return AlertDialog(
         backgroundColor: bgColor,
         title: Center(
-            child: Text('Add Category'.toUpperCase(),
-                style: const TextStyle(color: primaryColor))),
+          child: Text(
+            'Add Category'.toUpperCase(),
+            style: const TextStyle(color: primaryColor),
+          ),
+        ),
         content: CategorySubmitForm(category: category),
       );
     },

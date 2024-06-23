@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, prefer_final_fields, avoid_print
+
 import '../../models/api_response.dart';
 import '../../models/coupon.dart';
 import '../../models/my_notification.dart';
@@ -24,7 +26,6 @@ class DataProvider extends ChangeNotifier {
 
   List<SubCategory> _allSubCategories = [];
   List<SubCategory> _filteredSubCategories = [];
-
   List<SubCategory> get subCategories => _filteredSubCategories;
 
   List<Brand> _allBrands = [];
@@ -61,6 +62,7 @@ class DataProvider extends ChangeNotifier {
 
   DataProvider() {
     getAllCategory();
+    getAllSubCategory();
   }
 
   //TODO: should complete getAllCategory
@@ -101,9 +103,50 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete getAllSubCategory
+  Future<List<SubCategory>> getAllSubCategory({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'subCategories');
+      if (response.isOk) {
+        ApiResponse<List<SubCategory>> apiResponse =
+            ApiResponse<List<SubCategory>>.fromJson(
+          response.body,
+          (json) {
+            return (json as List)
+                .map(
+                  (item) => SubCategory.fromJson(item),
+                )
+                .toList();
+          },
+        );
+        _allSubCategories = apiResponse.data ?? [];
+        _filteredSubCategories = List.from(_allSubCategories);
+        notifyListeners();
+        if (showSnack) {
+          SnackBarHelper.showSuccessSnackBar(
+              'Category Fetch Succfully ${apiResponse.message}');
+        }
+      }
+    } catch (e) {
+      print(e);
+      if (showSnack) SnackBarHelper.showErrorSnackBar('Error Occurred $e');
+      rethrow;
+    }
+    return _filteredSubCategories;
+  }
 
-  //TODO: should complete filterSubCategories
+  void filterSubCategories(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredSubCategories = List.from(_allSubCategories);
+    } else {
+      final lowerKeyWord = keyword.toLowerCase();
+      _filteredSubCategories = _allSubCategories.where(
+        (subCategory) {
+          return (subCategory.name ?? '').toLowerCase().contains(lowerKeyWord);
+        },
+      ).toList();
+    }
+    notifyListeners();
+  }
 
   //TODO: should complete getAllBrands
 
