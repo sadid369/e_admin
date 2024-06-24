@@ -130,7 +130,8 @@ class CategoryProvider extends ChangeNotifier {
       }
     } catch (e) {
       print(e);
-      SnackBarHelper.showErrorSnackBar('An Error occurred $e');
+      SnackBarHelper.showErrorSnackBar(
+          'An Error occurred for delete Category $e');
       rethrow;
     }
   }

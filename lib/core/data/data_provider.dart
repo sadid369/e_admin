@@ -122,8 +122,7 @@ class DataProvider extends ChangeNotifier {
         _filteredSubCategories = List.from(_allSubCategories);
         notifyListeners();
         if (showSnack) {
-          SnackBarHelper.showSuccessSnackBar(
-              'Category Fetch Succfully ${apiResponse.message}');
+          SnackBarHelper.showSuccessSnackBar(' ${apiResponse.message}');
         }
       }
     } catch (e) {

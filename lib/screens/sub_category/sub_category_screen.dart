@@ -1,3 +1,4 @@
+import 'package:e_admin/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../utility/constants.dart';
@@ -50,7 +51,8 @@ class SubCategoryScreen extends StatelessWidget {
                           const Gap(20),
                           IconButton(
                               onPressed: () {
-                                //TODO: should complete call getAllSubCategory
+                                context.dataProvider
+                                    .getAllSubCategory(showSnack: true);
                               },
                               icon: const Icon(Icons.refresh)),
                         ],
