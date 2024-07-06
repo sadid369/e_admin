@@ -63,6 +63,7 @@ class DataProvider extends ChangeNotifier {
   DataProvider() {
     getAllCategory();
     getAllSubCategory();
+    getAllBrands();
   }
 
   //TODO: should complete getAllCategory
@@ -148,8 +149,50 @@ class DataProvider extends ChangeNotifier {
   }
 
   //TODO: should complete getAllBrands
+  Future<List<Brand>> getAllBrands({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'brands');
+      if (response.isOk) {
+        ApiResponse<List<Brand>> apiResponse =
+            ApiResponse<List<Brand>>.fromJson(
+          response.body,
+          (json) {
+            return (json as List)
+                .map(
+                  (item) => Brand.fromJson(item),
+                )
+                .toList();
+          },
+        );
+        _allBrands = apiResponse.data ?? [];
+        _filteredBrands = List.from(_allBrands);
+        notifyListeners();
+        if (showSnack) {
+          SnackBarHelper.showSuccessSnackBar(' ${apiResponse.message}');
+        }
+      }
+    } catch (e) {
+      print(e);
+      if (showSnack) SnackBarHelper.showErrorSnackBar('Error Occurred $e');
+      rethrow;
+    }
+    return _filteredBrands;
+  }
 
   //TODO: should complete filterBrands
+  void filterBrands(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredBrands = List.from(_allBrands);
+    } else {
+      final lowerKeyWord = keyword.toLowerCase();
+      _filteredBrands = _allBrands.where(
+        (brand) {
+          return (brand.name ?? '').toLowerCase().contains(lowerKeyWord);
+        },
+      ).toList();
+    }
+    notifyListeners();
+  }
 
   //TODO: should complete getAllVariantType
 
