@@ -141,10 +141,8 @@ class BrandProvider extends ChangeNotifier {
 
   submitBrand() {
     if (brandForUpdate != null) {
-      log('update');
       updateBrand();
     } else {
-      log('add');
       addBrand();
     }
   }

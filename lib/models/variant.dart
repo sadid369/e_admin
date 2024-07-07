@@ -7,16 +7,16 @@ class Variant {
 
   Variant(
       {this.sId,
-        this.name,
-        this.variantTypeId,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.variantTypeId,
+      this.createdAt,
+      this.updatedAt});
 
   Variant.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     variantTypeId = json['variantTypeId'] != null
-        ? new VariantTypeId.fromJson(json['variantTypeId'])
+        ? VariantTypeId.fromJson(json['variantTypeId'])
         : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
