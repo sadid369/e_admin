@@ -1,4 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:e_admin/models/api_response.dart';
+import 'package:e_admin/utility/snack_bar_helper.dart';
+
 import '../../../models/brand.dart';
 import '../../../models/sub_category.dart';
 import '../../../models/variant_type.dart';
@@ -31,27 +35,84 @@ class DashBoardProvider extends ChangeNotifier {
   List<String> selectedVariants = [];
 
   Product? productForUpdate;
-  File? selectedMainImage, selectedSecondImage, selectedThirdImage, selectedFourthImage, selectedFifthImage;
-  XFile? mainImgXFile, secondImgXFile, thirdImgXFile, fourthImgXFile, fifthImgXFile;
+  File? selectedMainImage,
+      selectedSecondImage,
+      selectedThirdImage,
+      selectedFourthImage,
+      selectedFifthImage;
+  XFile? mainImgXFile,
+      secondImgXFile,
+      thirdImgXFile,
+      fourthImgXFile,
+      fifthImgXFile;
 
+//to filter the data for parent dropdown value
   List<SubCategory> subCategoriesByCategory = [];
   List<Brand> brandsBySubCategory = [];
   List<String> variantsByVariantType = [];
 
-
   DashBoardProvider(this._dataProvider);
 
   //TODO: should complete addProduct
+  addProduct() async {
+    try {
+      if (selectedMainImage == null) {
+        SnackBarHelper.showErrorSnackBar('Please Chose A Image');
+        return;
+      }
+      Map<String, dynamic> fromDataMap = {
+        'name': productNameCtrl.text,
+        'description': productDescCtrl.text,
+        'proCategoryId': selectedCategory?.sId,
+        'proSubCategoryId': selectedSubCategory?.sId,
+        'proBrandId': selectedBrand?.sId,
+        'price': productPriceCtrl.text,
+        'offerPrice': productOffPriceCtrl.text.isEmpty
+            ? productPriceCtrl.text
+            : productOffPriceCtrl.text,
+        'quantity': productQntCtrl.text,
+        'proVariantTypeId': selectedVariantType?.sId,
+        'proVariantId': selectedVariants
+      };
+      final FormData form = await createFormDataForMultipleImage(
+        imgXFiles: [
+          {'image1': mainImgXFile},
+          {'image2': secondImgXFile},
+          {'image3': thirdImgXFile},
+          {'image4': fourthImgXFile},
+          {'image5': fifthImgXFile}
+        ],
+        formData: fromDataMap,
+      );
+      final response =
+          await service.addItem(endpointUrl: 'products', itemData: form);
+      if (response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if (apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showSuccessSnackBar('${apiResponse.message}');
+          // _dataProvider.getAllCategory();
+          log('Product Added');
+        } else {
+          SnackBarHelper.showErrorSnackBar(
+              'Failed to add Product ${apiResponse.message}');
+        }
+      } else {
+        SnackBarHelper.showErrorSnackBar(
+            'Error ${response.body?['message'] ?? response.statusText}');
+      }
+    } catch (e) {
+      print(e);
+      SnackBarHelper.showErrorSnackBar('An Error occurred: $e');
+      rethrow;
+    }
+  }
 
   //TODO: should complete updateProduct
 
-
   //TODO: should complete submitProduct
 
-
   //TODO: should complete deleteProduct
-
-
 
   void pickImage({required int imageCardNumber}) async {
     final ImagePicker picker = ImagePicker();
@@ -90,11 +151,13 @@ class DashBoardProvider extends ChangeNotifier {
           if (kIsWeb) {
             String fileName = imgXFile.name;
             Uint8List byteImg = await imgXFile.readAsBytes();
-            formData['image' + (i + 1).toString()] = MultipartFile(byteImg, filename: fileName);
+            formData['image' + (i + 1).toString()] =
+                MultipartFile(byteImg, filename: fileName);
           } else {
             String filePath = imgXFile.path;
             String fileName = filePath.split('/').last;
-            formData['image' + (i + 1).toString()] = await MultipartFile(filePath, filename: fileName);
+            formData['image' + (i + 1).toString()] =
+                await MultipartFile(filePath, filename: fileName);
           }
         }
       }
@@ -105,14 +168,50 @@ class DashBoardProvider extends ChangeNotifier {
     return form;
   }
 
-
   //TODO: should complete filterSubcategory
+  filterSubcategory(Category category) async {
+    selectedSubCategory = null;
+    selectedBrand = null;
+    selectedCategory = category;
+    subCategoriesByCategory.clear();
+    final newList = _dataProvider.subCategories
+        .where(
+          (subcategory) => subcategory.categoryId?.sId == category.sId,
+        )
+        .toList();
+    subCategoriesByCategory = newList;
+    notifyListeners();
+  }
 
   //TODO: should complete filterBrand
+  filterBrand(SubCategory subCategory) async {
+    selectedBrand = null;
+    selectedSubCategory = subCategory;
+    brandsBySubCategory.clear();
+    final newList = _dataProvider.brands
+        .where(
+          (brand) => brand.subcategoryId?.sId == subCategory.sId,
+        )
+        .toList();
+    brandsBySubCategory = newList;
+    notifyListeners();
+  }
 
   //TODO: should complete filterVariant
+  filterVariant(VariantType variantType) async {
+    selectedVariants = [];
+    selectedVariantType = variantType;
 
-
+    final newList = _dataProvider.variants
+        .where(
+          (variant) => variant.variantTypeId?.sId == variantType.sId,
+        )
+        .toList();
+    final List<String> variantNames =
+        newList.map((variant) => variant.name ?? '').toList();
+    variantsByVariantType = variantNames;
+    notifyListeners();
+  }
 
   setDataForUpdateProduct(Product? product) {
     if (product != null) {
@@ -124,27 +223,34 @@ class DashBoardProvider extends ChangeNotifier {
       productOffPriceCtrl.text = '${product.offerPrice}';
       productQntCtrl.text = '${product.quantity}';
 
-      selectedCategory = _dataProvider.categories.firstWhereOrNull((element) => element.sId == product.proCategoryId?.sId);
+      selectedCategory = _dataProvider.categories.firstWhereOrNull(
+          (element) => element.sId == product.proCategoryId?.sId);
 
       final newListCategory = _dataProvider.subCategories
-          .where((subcategory) => subcategory.categoryId?.sId == product.proCategoryId?.sId)
+          .where((subcategory) =>
+              subcategory.categoryId?.sId == product.proCategoryId?.sId)
           .toList();
       subCategoriesByCategory = newListCategory;
-      selectedSubCategory =
-          _dataProvider.subCategories.firstWhereOrNull((element) => element.sId == product.proSubCategoryId?.sId);
+      selectedSubCategory = _dataProvider.subCategories.firstWhereOrNull(
+          (element) => element.sId == product.proSubCategoryId?.sId);
 
-      final newListBrand =
-          _dataProvider.brands.where((brand) => brand.subcategoryId?.sId == product.proSubCategoryId?.sId).toList();
+      final newListBrand = _dataProvider.brands
+          .where((brand) =>
+              brand.subcategoryId?.sId == product.proSubCategoryId?.sId)
+          .toList();
       brandsBySubCategory = newListBrand;
-      selectedBrand = _dataProvider.brands.firstWhereOrNull((element) => element.sId == product.proBrandId?.sId);
+      selectedBrand = _dataProvider.brands.firstWhereOrNull(
+          (element) => element.sId == product.proBrandId?.sId);
 
-      selectedVariantType =
-          _dataProvider.variantTypes.firstWhereOrNull((element) => element.sId == product.proVariantTypeId?.sId);
+      selectedVariantType = _dataProvider.variantTypes.firstWhereOrNull(
+          (element) => element.sId == product.proVariantTypeId?.sId);
 
       final newListVariant = _dataProvider.variants
-          .where((variant) => variant.variantTypeId?.sId == product.proVariantTypeId?.sId)
+          .where((variant) =>
+              variant.variantTypeId?.sId == product.proVariantTypeId?.sId)
           .toList();
-      final List<String> variantNames = newListVariant.map((variant) => variant.name ?? '').toList();
+      final List<String> variantNames =
+          newListVariant.map((variant) => variant.name ?? '').toList();
       variantsByVariantType = variantNames;
       selectedVariants = product.proVariantId ?? [];
     } else {
@@ -188,4 +294,3 @@ class DashBoardProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-
