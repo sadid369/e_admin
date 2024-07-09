@@ -35,20 +35,20 @@ class SubCategoryListSection extends StatelessWidget {
                 return DataTable(
                   columnSpacing: defaultPadding,
                   // minWidth: 600,
-                  columns: [
-                    const DataColumn(
+                  columns: const [
+                    DataColumn(
                       label: Text("SubCategory Name"),
                     ),
-                    const DataColumn(
+                    DataColumn(
                       label: Text("Category"),
                     ),
-                    const DataColumn(
+                    DataColumn(
                       label: Text("Added Date"),
                     ),
-                    const DataColumn(
+                    DataColumn(
                       label: Text("Edit"),
                     ),
-                    const DataColumn(
+                    DataColumn(
                       label: Text("Delete"),
                     ),
                   ],
