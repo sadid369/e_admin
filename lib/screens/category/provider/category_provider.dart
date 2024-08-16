@@ -29,10 +29,11 @@ class CategoryProvider extends ChangeNotifier {
     try {
       if (selectedImage == null) {
         SnackBarHelper.showErrorSnackBar('Please Chose A Image');
+        return;
       }
       Map<String, dynamic> fromDataMap = {
         'name': categoryNameCtrl.text,
-        'image': 'no_data'
+        'image': 'no_data' // image path will added from server side
       };
       final FormData form =
           await createFormData(imgXFile: imgXFile, formData: fromDataMap);

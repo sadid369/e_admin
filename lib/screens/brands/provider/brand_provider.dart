@@ -23,28 +23,29 @@ class BrandProvider extends ChangeNotifier {
 
   //TODO: should complete addBrand
   addBrand() async {
-    Map<String, dynamic> brand = {
-      'name': brandNameCtrl.text,
-      'subcategoryId': selectedSubCategory?.sId
-    };
-    final response =
-        await service.addItem(endpointUrl: 'brands', itemData: brand);
-    if (response.isOk) {
-      ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
-      if (apiResponse.success) {
-        clearFields();
-        log('Brand Added');
-        SnackBarHelper.showSuccessSnackBar('${apiResponse.message}');
-        _dataProvider.getAllBrands();
+    try {
+      Map<String, dynamic> brand = {
+        'name': brandNameCtrl.text,
+        'subcategoryId': selectedSubCategory?.sId
+      };
+      final response =
+          await service.addItem(endpointUrl: 'brands', itemData: brand);
+      if (response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if (apiResponse.success) {
+          clearFields();
+          log('Brand Added');
+          SnackBarHelper.showSuccessSnackBar('${apiResponse.message}');
+          _dataProvider.getAllBrands();
+        } else {
+          SnackBarHelper.showErrorSnackBar(
+              'Failed to add brand ${apiResponse.message}');
+        }
       } else {
         SnackBarHelper.showErrorSnackBar(
-            'Failed to add brand ${apiResponse.message}');
+            'Error ${response.body?['message'] ?? response.statusText}');
       }
-    } else {
-      SnackBarHelper.showErrorSnackBar(
-          'Error ${response.body?['message'] ?? response.statusText}');
-    }
-    try {} catch (e) {
+    } catch (e) {
       print(e);
       SnackBarHelper.showErrorSnackBar('An Error Occurred: $e ');
       rethrow;

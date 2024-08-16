@@ -27,7 +27,7 @@ class ProductSubmitForm extends StatelessWidget {
         key: context.dashBoardProvider.addProductFormKey,
         child: Container(
           width: size.width * 0.7,
-          padding: EdgeInsets.all(defaultPadding),
+          padding: const EdgeInsets.all(defaultPadding),
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(12.0),
@@ -35,7 +35,7 @@ class ProductSubmitForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -127,7 +127,7 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               CustomTextField(
                 controller: context.dashBoardProvider.productNameCtrl,
                 labelText: 'Product Name',
@@ -138,14 +138,14 @@ class ProductSubmitForm extends StatelessWidget {
                   }
                 },
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               CustomTextField(
                 controller: context.dashBoardProvider.productDescCtrl,
                 labelText: 'Product Description',
                 lineNumber: 3,
                 onSave: (val) {},
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Row(
                 children: [
                   Expanded(child: Consumer<DashBoardProvider>(
@@ -224,7 +224,7 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -265,7 +265,7 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: defaultPadding),
+              const SizedBox(width: defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -309,7 +309,7 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -321,9 +321,9 @@ class ProductSubmitForm extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the popup
                     },
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
-                  SizedBox(width: defaultPadding),
+                  const SizedBox(width: defaultPadding),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -337,12 +337,12 @@ class ProductSubmitForm extends StatelessWidget {
                         context
                             .dashBoardProvider.addProductFormKey.currentState!
                             .save();
-                        //TODO: should complete call submitProduct
-                        context.dashBoardProvider.addProduct();
+
+                        context.dashBoardProvider.submitProduct();
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
@@ -363,7 +363,7 @@ void showAddProductForm(BuildContext context, Product? product) {
         backgroundColor: bgColor,
         title: Center(
             child: Text('Add Product'.toUpperCase(),
-                style: TextStyle(color: primaryColor))),
+                style: const TextStyle(color: primaryColor))),
         content: ProductSubmitForm(product: product),
       );
     },

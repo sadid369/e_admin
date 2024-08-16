@@ -89,10 +89,11 @@ class DashBoardProvider extends ChangeNotifier {
       if (response.isOk) {
         ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
         if (apiResponse.success == true) {
-          clearFields();
           SnackBarHelper.showSuccessSnackBar('${apiResponse.message}');
-          // _dataProvider.getAllCategory();
+          _dataProvider.getAllProduct();
           log('Product Added');
+
+          clearFields();
         } else {
           SnackBarHelper.showErrorSnackBar(
               'Failed to add Product ${apiResponse.message}');
@@ -109,10 +110,92 @@ class DashBoardProvider extends ChangeNotifier {
   }
 
   //TODO: should complete updateProduct
+  updateProduct() async {
+    try {
+      Map<String, dynamic> fromDataMap = {
+        'name': productNameCtrl.text,
+        'description': productDescCtrl.text,
+        'proCategoryId': selectedCategory?.sId ?? '',
+        'proSubCategoryId': selectedSubCategory?.sId ?? '',
+        'proBrandId': selectedBrand?.sId ?? '',
+        'price': productPriceCtrl.text,
+        'offerPrice': productOffPriceCtrl.text.isEmpty
+            ? productPriceCtrl.text
+            : productOffPriceCtrl.text,
+        'quantity': productQntCtrl.text,
+        'proVariantTypeId': selectedVariantType?.sId ?? '',
+        'proVariantId': selectedVariants
+      };
+      final FormData form = await createFormDataForMultipleImage(
+        imgXFiles: [
+          {'image1': mainImgXFile},
+          {'image2': secondImgXFile},
+          {'image3': thirdImgXFile},
+          {'image4': fourthImgXFile},
+          {'image5': fifthImgXFile}
+        ],
+        formData: fromDataMap,
+      );
+      final response = await service.updateItem(
+          endpointUrl: 'products',
+          itemData: form,
+          itemId: '${productForUpdate?.sId}');
+      if (response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if (apiResponse.success == true) {
+          SnackBarHelper.showSuccessSnackBar('${apiResponse.message}');
+          _dataProvider.getAllProduct();
+          log('Product Added');
+
+          clearFields();
+        } else {
+          SnackBarHelper.showErrorSnackBar(
+              'Failed to add Product ${apiResponse.message}');
+        }
+      } else {
+        SnackBarHelper.showErrorSnackBar(
+            'Error ${response.body?['message'] ?? response.statusText}');
+      }
+    } catch (e) {
+      print(e);
+      SnackBarHelper.showErrorSnackBar('An Error occurred: $e');
+      rethrow;
+    }
+  }
 
   //TODO: should complete submitProduct
+  submitProduct() {
+    if (productForUpdate != null) {
+      updateProduct();
+    } else {
+      addProduct();
+    }
+  }
 
   //TODO: should complete deleteProduct
+  deleteProduct(Product product) async {
+    try {
+      Response response = await service.deleteItem(
+        endpointUrl: 'products',
+        itemId: product.sId ?? '',
+      );
+      if (response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if (apiResponse.success == true) {
+          SnackBarHelper.showSuccessSnackBar('Product Deleted Successfully');
+          _dataProvider.getAllProduct();
+        }
+      } else {
+        SnackBarHelper.showErrorSnackBar(
+            "Error ${response.body['message'] ?? response.statusText}");
+      }
+    } catch (e) {
+      print(e);
+      SnackBarHelper.showErrorSnackBar(
+          'An Error occurred for delete Product $e');
+      rethrow;
+    }
+  }
 
   void pickImage({required int imageCardNumber}) async {
     final ImagePicker picker = ImagePicker();

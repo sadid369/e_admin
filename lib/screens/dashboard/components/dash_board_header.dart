@@ -1,3 +1,4 @@
+import 'package:e_admin/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../utility/constants.dart';
@@ -16,10 +17,9 @@ class DashBoardHeader extends StatelessWidget {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         Spacer(flex: 1),
-        Expanded(
-            child: SearchField(
+        Expanded(child: SearchField(
           onChange: (val) {
-            //TODO: should complete call filterProducts
+            context.dataProvider.filterProducts(val);
           },
         )),
         ProfileCard()

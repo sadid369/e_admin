@@ -22,8 +22,6 @@ class SubCategoryProvider extends ChangeNotifier {
 
   SubCategoryProvider(this._dataProvider);
 
-  //TODO: should complete addSubCategory
-
   addSubCategory() async {
     try {
       //

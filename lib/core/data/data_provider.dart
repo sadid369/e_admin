@@ -61,6 +61,7 @@ class DataProvider extends ChangeNotifier {
   List<MyNotification> get notifications => _filteredNotifications;
 
   DataProvider() {
+    getAllProduct();
     getAllCategory();
     getAllSubCategory();
     getAllBrands();
@@ -289,8 +290,54 @@ class DataProvider extends ChangeNotifier {
   }
 
   //TODO: should complete getAllProduct
+  Future<void> getAllProduct({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'products');
+      if (response.isOk) {
+        ApiResponse<List<Product>> apiResponse =
+            ApiResponse<List<Product>>.fromJson(
+          response.body,
+          (json) =>
+              (json as List).map((item) => Product.fromJson(item)).toList(),
+        );
+        _allProducts = apiResponse.data ?? [];
+        _filteredProducts = List.from(_allProducts);
+        notifyListeners();
+        if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    } catch (e) {
+      if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
+      rethrow;
+    }
+  }
 
   //TODO: should complete filterProducts
+  void filterProducts(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredProducts = List.from(_allProducts);
+    } else {
+      final lowerKeyWord = keyword.toLowerCase();
+      _filteredProducts = _allProducts.where(
+        (product) {
+          final productNameContainsKeyword =
+              (product.name ?? '').toLowerCase().contains(lowerKeyWord);
+          final categoryNameContainsKeyword = product.proSubCategoryId?.name
+                  ?.toLowerCase()
+                  .contains(lowerKeyWord) ??
+              false;
+          final subCategoryNameContainsKeyword = product.proSubCategoryId?.name
+                  ?.toLowerCase()
+                  .contains(lowerKeyWord) ??
+              false;
+
+          return productNameContainsKeyword ||
+              categoryNameContainsKeyword ||
+              subCategoryNameContainsKeyword;
+        },
+      ).toList();
+    }
+    notifyListeners();
+  }
 
   //TODO: should complete getAllCoupons
 

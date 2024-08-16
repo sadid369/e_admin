@@ -50,19 +50,18 @@ class CategoryImageCard extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                 )
-              else if ( imageUrlForUpdateImage != null)
+              else if (imageUrlForUpdateImage != null)
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    imageUrlForUpdateImage ?? '',
-                    width: double.infinity,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  )
-                )
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      imageUrlForUpdateImage ?? '',
+                      width: double.infinity,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ))
               else
                 Icon(Icons.camera_alt, size: 50, color: Colors.grey[600]),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 labelText,
                 style: TextStyle(

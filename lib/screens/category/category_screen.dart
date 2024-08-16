@@ -50,11 +50,12 @@ class CategoryScreen extends StatelessWidget {
                           ),
                           const Gap(20),
                           IconButton(
-                              onPressed: () {
-                                context.dataProvider
-                                    .getAllCategory(showSnack: true);
-                              },
-                              icon: const Icon(Icons.refresh)),
+                            onPressed: () {
+                              context.dataProvider
+                                  .getAllCategory(showSnack: true);
+                            },
+                            icon: const Icon(Icons.refresh),
+                          ),
                         ],
                       ),
                       const Gap(defaultPadding),
