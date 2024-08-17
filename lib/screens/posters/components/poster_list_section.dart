@@ -1,10 +1,11 @@
+import 'package:e_admin/utility/extensions.dart';
+
 import '../../../core/data/data_provider.dart';
 import 'add_poster_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../models/poster.dart';
 import '../../../utility/constants.dart';
-
 
 class PosterListSection extends StatelessWidget {
   const PosterListSection({
@@ -46,9 +47,10 @@ class PosterListSection extends StatelessWidget {
                   ],
                   rows: List.generate(
                     dataProvider.posters.length,
-                    (index) => posterDataRow(dataProvider.posters[index], delete: () {
-                      //TODO: should complete call deletePoster
-
+                    (index) =>
+                        posterDataRow(dataProvider.posters[index], delete: () {
+                      context.posterProvider
+                          .deletePoster(dataProvider.posters[index]);
                     }, edit: () {
                       showAddPosterForm(context, dataProvider.posters[index]);
                     }),
@@ -73,7 +75,8 @@ DataRow posterDataRow(Poster poster, {Function? edit, Function? delete}) {
               poster.imageUrl ?? '',
               height: 30,
               width: 30,
-              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+              errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) {
                 return Icon(Icons.error);
               },
             ),

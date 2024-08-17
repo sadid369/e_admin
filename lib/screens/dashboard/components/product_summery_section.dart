@@ -1,3 +1,4 @@
+import 'package:e_admin/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/data/data_provider.dart';
@@ -17,11 +18,14 @@ class ProductSummerySection extends StatelessWidget {
     return Consumer<DataProvider>(
       builder: (context, dataProvider, _) {
         int totalProduct = 1;
-        //TODO: should complete Make this product number dynamic bt calling calculateProductWithQuantity
-        totalProduct = 1;
-        int outOfStockProduct = 0;
-        int limitedStockProduct = 0;
-        int otherStockProduct = totalProduct - outOfStockProduct - limitedStockProduct;
+        totalProduct =
+            context.dataProvider.calculateProductWithQuantity(quantity: null);
+        int outOfStockProduct =
+            context.dataProvider.calculateProductWithQuantity(quantity: 0);
+        int limitedStockProduct =
+            context.dataProvider.calculateProductWithQuantity(quantity: 1);
+        int otherStockProduct =
+            totalProduct - outOfStockProduct - limitedStockProduct;
 
         List<ProductSummeryInfo> productSummeryItems = [
           ProductSummeryInfo(
@@ -36,21 +40,27 @@ class ProductSummerySection extends StatelessWidget {
             productsCount: outOfStockProduct,
             svgSrc: "assets/icons/Product2.svg",
             color: Color(0xFFEA3829),
-            percentage: totalProduct != 0 ? (outOfStockProduct / totalProduct) * 100 : 0,
+            percentage: totalProduct != 0
+                ? (outOfStockProduct / totalProduct) * 100
+                : 0,
           ),
           ProductSummeryInfo(
             title: "Limited Stock",
             productsCount: limitedStockProduct,
             svgSrc: "assets/icons/Product3.svg",
             color: Color(0xFFECBE23),
-            percentage: totalProduct != 0 ? (limitedStockProduct / totalProduct) * 100 : 0,
+            percentage: totalProduct != 0
+                ? (limitedStockProduct / totalProduct) * 100
+                : 0,
           ),
           ProductSummeryInfo(
             title: "Other Stock",
             productsCount: otherStockProduct,
             svgSrc: "assets/icons/Product4.svg",
             color: Color(0xFF47e228),
-            percentage: totalProduct != 0 ? (otherStockProduct / totalProduct) * 100 : 0,
+            percentage: totalProduct != 0
+                ? (otherStockProduct / totalProduct) * 100
+                : 0,
           ),
         ];
 
@@ -69,7 +79,8 @@ class ProductSummerySection extends StatelessWidget {
               itemBuilder: (context, index) => ProductSummeryCard(
                 info: productSummeryItems[index],
                 onTap: (productType) {
-                  //TODO: should complete call filterProductsByQuantity
+                  context.dataProvider
+                      .filterProductByQuantity(productType ?? '');
                 },
               ),
             ),

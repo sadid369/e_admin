@@ -67,6 +67,8 @@ class DataProvider extends ChangeNotifier {
     getAllBrands();
     getAllVariantType();
     getAllVariant();
+    getAllPoster();
+    getAllCoupons();
   }
 
   //TODO: should complete getAllCategory
@@ -340,12 +342,80 @@ class DataProvider extends ChangeNotifier {
   }
 
   //TODO: should complete getAllCoupons
+  Future<List<Coupon>> getAllCoupons({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'couponCodes');
+      if (response.isOk) {
+        ApiResponse<List<Coupon>> apiResponse =
+            ApiResponse<List<Coupon>>.fromJson(
+          response.body,
+          (json) =>
+              (json as List).map((item) => Coupon.fromJson(item)).toList(),
+        );
+        _allCoupons = apiResponse.data ?? [];
+        _filteredCoupons = List.from(_allCoupons);
+        notifyListeners();
+        if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    } catch (e) {
+      if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
+      rethrow;
+    }
+    return _filteredCoupons;
+  }
 
   //TODO: should complete filterCoupons
+  void filterCoupons(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredCoupons = List.from(_allCoupons);
+    } else {
+      final lowerKeyWord = keyword.toLowerCase();
+      _filteredCoupons = _allCoupons.where(
+        (coupon) {
+          return (coupon.couponCode ?? '').toLowerCase().contains(lowerKeyWord);
+        },
+      ).toList();
+    }
+    notifyListeners();
+  }
 
   //TODO: should complete getAllPosters
+  Future<List<Poster>> getAllPoster({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'posters');
+      if (response.isOk) {
+        ApiResponse<List<Poster>> apiResponse =
+            ApiResponse<List<Poster>>.fromJson(
+          response.body,
+          (json) =>
+              (json as List).map((item) => Poster.fromJson(item)).toList(),
+        );
+        _allPosters = apiResponse.data ?? [];
+        _filteredPosters = List.from(_allPosters);
+        notifyListeners();
+        if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    } catch (e) {
+      if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
+      rethrow;
+    }
+    return _filteredPosters;
+  }
 
   //TODO: should complete filterPosters
+  void filterPosters(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredPosters = List.from(_allPosters);
+    } else {
+      final lowerKeyWord = keyword.toLowerCase();
+      _filteredPosters = _allPosters.where(
+        (poster) {
+          return (poster.posterName ?? '').toLowerCase().contains(lowerKeyWord);
+        },
+      ).toList();
+    }
+    notifyListeners();
+  }
 
   //TODO: should complete getAllNotifications
 
@@ -358,6 +428,48 @@ class DataProvider extends ChangeNotifier {
   //TODO: should complete calculateOrdersWithStatus
 
   //TODO: should complete filterProductsByQuantity
+  void filterProductByQuantity(String productQntType) {
+    if (productQntType == "All Product") {
+      _filteredProducts = List.from(_allProducts);
+    } else if (productQntType == 'Out of Stock') {
+      _filteredProducts = _allProducts.where(
+        (product) {
+          return product.quantity != null && product.quantity == 0;
+        },
+      ).toList();
+    } else if (productQntType == 'Limited Stock') {
+      _filteredProducts = _allProducts.where(
+        (product) {
+          return product.quantity != null && product.quantity == 1;
+        },
+      ).toList();
+    } else if (productQntType == 'Other Stock') {
+      _filteredProducts = _allProducts.where(
+        (product) {
+          return product.quantity != null &&
+              product.quantity != 0 &&
+              product.quantity != 1;
+        },
+      ).toList();
+    } else {
+      _filteredProducts = List.from(_allProducts);
+    }
+    notifyListeners();
+  }
 
   //TODO: should complete calculateProductWithQuantity
+  int calculateProductWithQuantity({int? quantity}) {
+    int totalProduct = 0;
+    if (quantity == null) {
+      totalProduct = _allProducts.length;
+    } else {
+      for (Product product in _allProducts) {
+        if (product.quantity != null && product.quantity == quantity) {
+          totalProduct += 1;
+        }
+      }
+    }
+
+    return totalProduct;
+  }
 }

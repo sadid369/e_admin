@@ -1,3 +1,4 @@
+import 'package:e_admin/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../utility/constants.dart';
@@ -18,7 +19,7 @@ class PosterHeader extends StatelessWidget {
         Spacer(flex: 2),
         Expanded(child: SearchField(
           onChange: (val) {
-            //TODO: should complete call filterPosters
+            context.dataProvider.filterPosters(val);
           },
         )),
         ProfileCard()
