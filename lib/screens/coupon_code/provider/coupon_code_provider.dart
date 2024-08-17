@@ -36,6 +36,7 @@ class CouponCodeProvider extends ChangeNotifier {
   addCoupon() async {
     try {
       //
+      //
       if (endDateCtrl.text.isEmpty) {
         SnackBarHelper.showErrorSnackBar('Select End Date');
         return;
