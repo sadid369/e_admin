@@ -69,6 +69,7 @@ class DataProvider extends ChangeNotifier {
     getAllVariant();
     getAllPoster();
     getAllCoupons();
+    getAllOrders();
   }
 
   //TODO: should complete getAllCategory
@@ -422,10 +423,60 @@ class DataProvider extends ChangeNotifier {
   //TODO: should complete filterNotifications
 
   //TODO: should complete getAllOrders
+  Future<void> getAllOrders({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'orders');
+      if (response.isOk) {
+        ApiResponse<List<Order>> apiResponse =
+            ApiResponse<List<Order>>.fromJson(
+          response.body,
+          (json) => (json as List).map((item) => Order.fromJson(item)).toList(),
+        );
+        _allOrders = apiResponse.data ?? [];
+        _filteredOrders = List.from(_allOrders);
+        notifyListeners();
+        if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    } catch (e) {
+      if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
+      rethrow;
+    }
+  }
 
   //TODO: should complete filterOrders
+  void filterOrders(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredOrders = List.from(_allOrders);
+    } else {
+      final lowerKeyWord = keyword.toLowerCase();
+      _filteredOrders = _allOrders.where(
+        (order) {
+          final nameMatches =
+              (order.userID?.name ?? '').toLowerCase().contains(lowerKeyWord);
+          final statusMatches =
+              (order.orderStatus ?? '').toLowerCase().contains(lowerKeyWord);
+
+          return nameMatches || statusMatches;
+        },
+      ).toList();
+    }
+    notifyListeners();
+  }
 
   //TODO: should complete calculateOrdersWithStatus
+  int calculateOrdersWithStatus(String? status) {
+    int totalOrders = 0;
+    if (status == null) {
+      totalOrders = _allOrders.length;
+    } else {
+      for (Order order in _allOrders) {
+        if (order.orderStatus == status) {
+          totalOrders += 1;
+        }
+      }
+    }
+    return totalOrders;
+  }
 
   //TODO: should complete filterProductsByQuantity
   void filterProductByQuantity(String productQntType) {
