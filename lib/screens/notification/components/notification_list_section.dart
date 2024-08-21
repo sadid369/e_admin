@@ -1,3 +1,5 @@
+import 'package:e_admin/utility/extensions.dart';
+
 import '../../../core/data/data_provider.dart';
 import '../../../models/my_notification.dart';
 import 'view_notification_form.dart';
@@ -5,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../utility/color_list.dart';
 import '../../../utility/constants.dart';
-
 
 class NotificationListSection extends StatelessWidget {
   const NotificationListSection({
@@ -53,10 +54,13 @@ class NotificationListSection extends StatelessWidget {
                   ],
                   rows: List.generate(
                     dataProvider.notifications.length,
-                    (index) => notificationDataRow(dataProvider.notifications[index], index + 1, edit: () {
-                      viewNotificationStatics(context, dataProvider.notifications[index]);
+                    (index) => notificationDataRow(
+                        dataProvider.notifications[index], index + 1, edit: () {
+                      viewNotificationStatics(
+                          context, dataProvider.notifications[index]);
                     }, delete: () {
-                      //TODO: should complete call deleteNotification
+                      context.notificationProvider.deleteNotification(
+                          dataProvider.notifications[index]);
                     }),
                   ),
                 );
@@ -69,7 +73,8 @@ class NotificationListSection extends StatelessWidget {
   }
 }
 
-DataRow notificationDataRow(MyNotification notificationInfo, int index, {Function? edit, Function? delete}) {
+DataRow notificationDataRow(MyNotification notificationInfo, int index,
+    {Function? edit, Function? delete}) {
   return DataRow(
     cells: [
       DataCell(

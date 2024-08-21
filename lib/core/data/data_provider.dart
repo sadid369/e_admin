@@ -70,6 +70,7 @@ class DataProvider extends ChangeNotifier {
     getAllPoster();
     getAllCoupons();
     getAllOrders();
+    getAllNotifications();
   }
 
   //TODO: should complete getAllCategory
@@ -200,7 +201,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete getAllVariantType
   Future<List<VariantType>> getAllVariantType({bool showSnack = false}) async {
     try {
       Response response = await service.getItems(endpointUrl: 'variantTypes');
@@ -231,7 +231,6 @@ class DataProvider extends ChangeNotifier {
     return _filteredVariantTypes;
   }
 
-  //TODO: should complete filterVariantTypes
   void filterVariantTypes(String keyword) {
     if (keyword.isEmpty) {
       _filteredVariantTypes = List.from(_allVariantTypes);
@@ -246,7 +245,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete getAllVariant
   Future<List<Variant>> getAllVariant({bool showSnack = false}) async {
     try {
       Response response = await service.getItems(endpointUrl: 'variants');
@@ -277,7 +275,6 @@ class DataProvider extends ChangeNotifier {
     return _filteredVariants;
   }
 
-  //TODO: should complete filterVariants
   void filterVariants(String keyword) {
     if (keyword.isEmpty) {
       _filteredVariants = List.from(_allVariants);
@@ -292,7 +289,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete getAllProduct
   Future<void> getAllProduct({bool showSnack = false}) async {
     try {
       Response response = await service.getItems(endpointUrl: 'products');
@@ -314,7 +310,6 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete filterProducts
   void filterProducts(String keyword) {
     if (keyword.isEmpty) {
       _filteredProducts = List.from(_allProducts);
@@ -342,7 +337,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete getAllCoupons
   Future<List<Coupon>> getAllCoupons({bool showSnack = false}) async {
     try {
       Response response = await service.getItems(endpointUrl: 'couponCodes');
@@ -365,7 +359,6 @@ class DataProvider extends ChangeNotifier {
     return _filteredCoupons;
   }
 
-  //TODO: should complete filterCoupons
   void filterCoupons(String keyword) {
     if (keyword.isEmpty) {
       _filteredCoupons = List.from(_allCoupons);
@@ -380,7 +373,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete getAllPosters
   Future<List<Poster>> getAllPoster({bool showSnack = false}) async {
     try {
       Response response = await service.getItems(endpointUrl: 'posters');
@@ -403,7 +395,6 @@ class DataProvider extends ChangeNotifier {
     return _filteredPosters;
   }
 
-  //TODO: should complete filterPosters
   void filterPosters(String keyword) {
     if (keyword.isEmpty) {
       _filteredPosters = List.from(_allPosters);
@@ -418,11 +409,48 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete getAllNotifications
+  Future<List<MyNotification>> getAllNotifications(
+      {bool showSnack = false}) async {
+    try {
+      Response response =
+          await service.getItems(endpointUrl: 'notification/all-notification');
+      if (response.isOk) {
+        ApiResponse<List<MyNotification>> apiResponse =
+            ApiResponse<List<MyNotification>>.fromJson(
+          response.body,
+          (json) => (json as List)
+              .map((item) => MyNotification.fromJson(item))
+              .toList(),
+        );
+        _allNotifications = apiResponse.data ?? [];
+        _filteredNotifications = List.from(_allNotifications);
+        notifyListeners();
+        if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    } catch (e) {
+      if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
+      rethrow;
+    }
+    return _filteredNotifications;
+  }
 
   //TODO: should complete filterNotifications
+  void filterNotifications(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredNotifications = List.from(_allNotifications);
+    } else {
+      final lowerKeyWord = keyword.toLowerCase();
+      _filteredNotifications = _allNotifications.where(
+        (notification) {
+          return (notification.title ?? '')
+              .toLowerCase()
+              .contains(lowerKeyWord);
+        },
+      ).toList();
+    }
+    notifyListeners();
+  }
 
-  //TODO: should complete getAllOrders
   Future<void> getAllOrders({bool showSnack = false}) async {
     try {
       Response response = await service.getItems(endpointUrl: 'orders');
@@ -443,7 +471,6 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete filterOrders
   void filterOrders(String keyword) {
     if (keyword.isEmpty) {
       _filteredOrders = List.from(_allOrders);
@@ -463,8 +490,7 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete calculateOrdersWithStatus
-  int calculateOrdersWithStatus(String? status) {
+  int calculateOrdersWithStatus({String? status}) {
     int totalOrders = 0;
     if (status == null) {
       totalOrders = _allOrders.length;
@@ -478,7 +504,6 @@ class DataProvider extends ChangeNotifier {
     return totalOrders;
   }
 
-  //TODO: should complete filterProductsByQuantity
   void filterProductByQuantity(String productQntType) {
     if (productQntType == "All Product") {
       _filteredProducts = List.from(_allProducts);
@@ -508,7 +533,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete calculateProductWithQuantity
   int calculateProductWithQuantity({int? quantity}) {
     int totalProduct = 0;
     if (quantity == null) {

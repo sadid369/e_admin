@@ -5,7 +5,6 @@ import '../../../utility/constants.dart';
 import '../../../widgets/custom_text_field.dart';
 
 class SendNotificationForm extends StatelessWidget {
-
   const SendNotificationForm({super.key});
 
   @override
@@ -75,9 +74,13 @@ class SendNotificationForm extends StatelessWidget {
                     ),
                     onPressed: () {
                       // Validate and save the form
-                      if (context.notificationProvider.sendNotificationFormKey.currentState!.validate()) {
-                        context.notificationProvider.sendNotificationFormKey.currentState!.save();
-                        //TODO: should complete call sendNotification
+                      if (context.notificationProvider.sendNotificationFormKey
+                          .currentState!
+                          .validate()) {
+                        context.notificationProvider.sendNotificationFormKey
+                            .currentState!
+                            .save();
+                        context.notificationProvider.sendNotification();
                         Navigator.of(context).pop();
                       }
                     },
@@ -100,9 +103,10 @@ void sendNotificationFormForm(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: bgColor,
-        title: Center(child: Text('Send Notification'.toUpperCase(), style: TextStyle(color: primaryColor))),
-        content: SendNotificationForm(
-        ),
+        title: Center(
+            child: Text('Send Notification'.toUpperCase(),
+                style: TextStyle(color: primaryColor))),
+        content: SendNotificationForm(),
       );
     },
   );

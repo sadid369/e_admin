@@ -43,7 +43,7 @@ class OrderInfoCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "$totalOrder Files",
+                    "$totalOrder Order",
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!

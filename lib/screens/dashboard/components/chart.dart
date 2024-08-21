@@ -1,3 +1,5 @@
+import 'package:e_admin/utility/extensions.dart';
+
 import '../../../core/data/data_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +33,13 @@ class Chart extends StatelessWidget {
                 Consumer<DataProvider>(
                   builder: (context, dataProvider, child) {
                     return Text(
-                      '${0}', //TODO: should complete Make this order number dynamic bt calling calculateOrdersWithStatus
-                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        height: 0.5,
-                      ),
+                      '${context.dataProvider.calculateOrdersWithStatus(status: null)}', //TODO: should complete Make this order number dynamic bt calling calculateOrdersWithStatus
+                      style:
+                          Theme.of(context).textTheme.headlineMedium!.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                height: 0.5,
+                              ),
                     );
                   },
                 ),
@@ -53,13 +56,18 @@ class Chart extends StatelessWidget {
   List<PieChartSectionData> _buildPieChartSelectionData(BuildContext context) {
     final DataProvider dataProvider = Provider.of<DataProvider>(context);
 
-    //TODO: should complete Make this order number dynamic bt calling calculateOrdersWithStatus
-    int totalOrder = 0;
-    int pendingOrder = 0;
-    int processingOrder = 0;
-    int cancelledOrder = 0;
-    int shippedOrder = 0;
-    int deliveredOrder = 0;
+    int totalOrder = dataProvider.calculateOrdersWithStatus(status: null);
+    int pendingOrder =
+        dataProvider.calculateOrdersWithStatus(status: 'pending');
+    int processingOrder =
+        dataProvider.calculateOrdersWithStatus(status: 'processing');
+    int cancelledOrder =
+        dataProvider.calculateOrdersWithStatus(status: 'cancelled');
+    ;
+    int shippedOrder =
+        dataProvider.calculateOrdersWithStatus(status: 'shipped');
+    int deliveredOrder =
+        dataProvider.calculateOrdersWithStatus(status: 'delivered');
 
     List<PieChartSectionData> pieChartSelectionData = [
       PieChartSectionData(
@@ -97,4 +105,3 @@ class Chart extends StatelessWidget {
     return pieChartSelectionData;
   }
 }
-

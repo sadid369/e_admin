@@ -15,12 +15,18 @@ class OrderDetailsSection extends StatelessWidget {
     return Consumer<DataProvider>(
       builder: (context, dataProvider, child) {
         //TODO: should complete Make this order number dynamic bt calling calculateOrdersWithStatus
-        int totalOrder = 0;
-        int pendingOrder = 0;
-        int processingOrder = 0;
-        int cancelledOrder = 0;
-        int shippedOrder = 0;
-        int deliveredOrder = 0;
+        int totalOrder = dataProvider.calculateOrdersWithStatus(status: null);
+        int pendingOrder =
+            dataProvider.calculateOrdersWithStatus(status: 'pending');
+        int processingOrder =
+            dataProvider.calculateOrdersWithStatus(status: 'processing');
+        int cancelledOrder =
+            dataProvider.calculateOrdersWithStatus(status: 'cancelled');
+        ;
+        int shippedOrder =
+            dataProvider.calculateOrdersWithStatus(status: 'shipped');
+        int deliveredOrder =
+            dataProvider.calculateOrdersWithStatus(status: 'delivered');
         return Container(
           padding: EdgeInsets.all(defaultPadding),
           decoration: BoxDecoration(
