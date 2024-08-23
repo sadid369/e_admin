@@ -1,13 +1,11 @@
 // ignore_for_file: unnecessary_string_interpolations
 
 import 'dart:developer';
-
 import 'package:e_admin/models/my_notification.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter/cupertino.dart';
 import '../../../models/api_response.dart';
 import '../../../models/notification_result.dart';
-import 'package:flutter/cupertino.dart';
 import '../../../core/data/data_provider.dart';
 import '../../../services/http_services.dart';
 import '../../../utility/snack_bar_helper.dart';

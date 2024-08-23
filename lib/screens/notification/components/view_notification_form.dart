@@ -1,12 +1,10 @@
 import 'package:e_admin/utility/extensions.dart';
-
 import '../../../models/my_notification.dart';
 import '../provider/notification_provider.dart';
 import '../../../utility/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-
 import 'notification_statics_card.dart';
 
 class ViewNotificationForm extends StatelessWidget {
