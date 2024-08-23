@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'dart:developer';
 
 import 'package:e_admin/models/my_notification.dart';
@@ -51,13 +53,11 @@ class NotificationProvider extends ChangeNotifier {
             'Error ${response.body?['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error occurred: $e');
       rethrow;
     }
   }
 
-  //TODO: should complete deleteNotification
   deleteNotification(MyNotification myNotification) async {
     try {
       Response response = await service.deleteItem(
@@ -76,14 +76,12 @@ class NotificationProvider extends ChangeNotifier {
             "Error ${response.body['message'] ?? response.statusText}");
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar(
           'An Error occurred for delete Notification  $e');
       rethrow;
     }
   }
 
-  //TODO: should complete getNotificationInfo
   getNotificationInfo(MyNotification? myNotification) async {
     try {
       if (myNotification == null) {
@@ -102,7 +100,6 @@ class NotificationProvider extends ChangeNotifier {
         if (apiResponse.success == true) {
           NotificationResult? myNotificationResult = apiResponse.data;
           notificationResult = myNotificationResult;
-          print(notificationResult?.platform);
           log('notification fetch Successfully');
           notifyListeners();
           // SnackBarHelper.showSuccessSnackBar('${apiResponse.message}');
@@ -115,7 +112,6 @@ class NotificationProvider extends ChangeNotifier {
             'Error ${response.body?['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error occurred: $e');
       rethrow;
     }

@@ -3,7 +3,6 @@ import 'package:e_admin/utility/extensions.dart';
 import '../../../core/data/data_provider.dart';
 import 'add_variant_type_form.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../utility/color_list.dart';
 import '../../../utility/constants.dart';

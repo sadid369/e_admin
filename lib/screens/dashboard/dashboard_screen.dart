@@ -10,6 +10,8 @@ import 'components/product_list_section.dart';
 import 'components/product_summery_section.dart';
 
 class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

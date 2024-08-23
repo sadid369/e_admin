@@ -1,3 +1,5 @@
+// ignore_for_file: body_might_complete_normally_nullable
+
 import '../../../models/brand.dart';
 import '../../../models/category.dart';
 import '../../../models/product.dart';

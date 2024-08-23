@@ -31,8 +31,6 @@ class CouponCodeProvider extends ChangeNotifier {
 
   CouponCodeProvider(this._dataProvider);
 
-  //TODO: should complete addCoupon
-
   addCoupon() async {
     try {
       //
@@ -67,16 +65,13 @@ class CouponCodeProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error Occurred $e');
       rethrow;
     }
   }
 
-  //TODO: should complete updateCoupon
   updateCoupon() async {
     try {
-      //
       if (couponForUpdate != null) {
         Map<String, dynamic> coupon = {
           'couponCode': couponCodeCtrl.text,
@@ -112,13 +107,11 @@ class CouponCodeProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('Error to Update Coupon $e');
       rethrow;
     }
   }
 
-  //TODO: should complete submitCoupon
   submitCoupon() {
     if (couponForUpdate != null) {
       updateCoupon();
@@ -127,7 +120,6 @@ class CouponCodeProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete deleteCoupon
   deleteCoupon(Coupon coupon) async {
     try {
       Response response = await service.deleteItem(
@@ -145,7 +137,6 @@ class CouponCodeProvider extends ChangeNotifier {
             "Error ${response.body['message'] ?? response.statusText}");
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar(
           'An Error occurred for delete Coupon $e');
       rethrow;

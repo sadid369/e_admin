@@ -7,10 +7,10 @@ class NotificationResult {
 
   NotificationResult(
       {this.platform,
-        this.successDelivery,
-        this.failedDelivery,
-        this.erroredDelivery,
-        this.openedNotification});
+      this.successDelivery,
+      this.failedDelivery,
+      this.erroredDelivery,
+      this.openedNotification});
 
   NotificationResult.fromJson(Map<String, dynamic> json) {
     platform = json['platform'];
@@ -21,12 +21,12 @@ class NotificationResult {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['platform'] = this.platform;
-    data['success_delivery'] = this.successDelivery;
-    data['failed_delivery'] = this.failedDelivery;
-    data['errored_delivery'] = this.erroredDelivery;
-    data['opened_notification'] = this.openedNotification;
+    final Map<String, dynamic> data = {};
+    data['platform'] = platform;
+    data['success_delivery'] = successDelivery;
+    data['failed_delivery'] = failedDelivery;
+    data['errored_delivery'] = erroredDelivery;
+    data['opened_notification'] = openedNotification;
     return data;
   }
 }

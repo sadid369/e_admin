@@ -4,24 +4,22 @@ import '../../../core/data/data_provider.dart';
 import '../../../models/variant.dart';
 import 'add_variant_form.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../utility/color_list.dart';
 import '../../../utility/constants.dart';
-import '../../../models/variant_type.dart';
 
 class VariantsListSection extends StatelessWidget {
   const VariantsListSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +72,7 @@ class VariantsListSection extends StatelessWidget {
   }
 }
 
-DataRow variantDataRow(Variant VariantInfo, int index,
+DataRow variantDataRow(Variant variantInfo, int index,
     {Function? edit, Function? delete}) {
   return DataRow(
     cells: [
@@ -92,18 +90,18 @@ DataRow variantDataRow(Variant VariantInfo, int index,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(VariantInfo.name ?? ''),
+              child: Text(variantInfo.name ?? ''),
             ),
           ],
         ),
       ),
-      DataCell(Text(VariantInfo.variantTypeId?.name ?? '')),
-      DataCell(Text(VariantInfo.createdAt ?? '')),
+      DataCell(Text(variantInfo.variantTypeId?.name ?? '')),
+      DataCell(Text(variantInfo.createdAt ?? '')),
       DataCell(IconButton(
           onPressed: () {
             if (edit != null) edit();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.edit,
             color: Colors.white,
           ))),
@@ -111,7 +109,7 @@ DataRow variantDataRow(Variant VariantInfo, int index,
           onPressed: () {
             if (delete != null) delete();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.delete,
             color: Colors.red,
           ))),

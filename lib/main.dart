@@ -44,10 +44,12 @@ void main() {
         create: (context) => OrderProvider(context.dataProvider)),
     ChangeNotifierProvider(
         create: (context) => NotificationProvider(context.dataProvider)),
-  ], child: MyApp()));
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -60,12 +62,9 @@ class MyApp extends StatelessWidget {
         canvasColor: secondaryColor,
       ),
       initialRoute: AppPages.HOME,
-      unknownRoute: GetPage(name: '/notFount', page: () => MainScreen()),
+      unknownRoute: GetPage(name: '/notFount', page: () => const MainScreen()),
       defaultTransition: Transition.cupertino,
       getPages: AppPages.routes,
     );
   }
 }
-
-
-// 2:22 minites

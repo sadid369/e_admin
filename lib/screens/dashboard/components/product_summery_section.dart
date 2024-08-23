@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:e_admin/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +10,8 @@ import 'product_summery_card.dart';
 
 class ProductSummerySection extends StatelessWidget {
   const ProductSummerySection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class ProductSummerySection extends StatelessWidget {
             title: "Out of Stock",
             productsCount: outOfStockProduct,
             svgSrc: "assets/icons/Product2.svg",
-            color: Color(0xFFEA3829),
+            color: const Color(0xFFEA3829),
             percentage: totalProduct != 0
                 ? (outOfStockProduct / totalProduct) * 100
                 : 0,
@@ -48,7 +50,7 @@ class ProductSummerySection extends StatelessWidget {
             title: "Limited Stock",
             productsCount: limitedStockProduct,
             svgSrc: "assets/icons/Product3.svg",
-            color: Color(0xFFECBE23),
+            color: const Color(0xFFECBE23),
             percentage: totalProduct != 0
                 ? (limitedStockProduct / totalProduct) * 100
                 : 0,
@@ -57,7 +59,7 @@ class ProductSummerySection extends StatelessWidget {
             title: "Other Stock",
             productsCount: otherStockProduct,
             svgSrc: "assets/icons/Product4.svg",
-            color: Color(0xFF47e228),
+            color: const Color(0xFF47e228),
             percentage: totalProduct != 0
                 ? (otherStockProduct / totalProduct) * 100
                 : 0,
@@ -67,7 +69,7 @@ class ProductSummerySection extends StatelessWidget {
         return Column(
           children: [
             GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: productSummeryItems.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

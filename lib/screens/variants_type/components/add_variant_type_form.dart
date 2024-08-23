@@ -1,7 +1,6 @@
 import '../../../models/variant_type.dart';
 import '../../../utility/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../../utility/constants.dart';
 import '../../../widgets/custom_text_field.dart';
 

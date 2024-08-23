@@ -5,13 +5,13 @@ class VariantType {
   String? createdAt;
   String? updatedAt;
 
-  VariantType(
-      {this.name,
-        this.type,
-        this.sId,
-        this.createdAt,
-        this.updatedAt,
-        });
+  VariantType({
+    this.name,
+    this.type,
+    this.sId,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   VariantType.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -22,12 +22,12 @@ class VariantType {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['type'] = this.type;
-    data['_id'] = this.sId;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
+    final Map<String, dynamic> data = {};
+    data['name'] = name;
+    data['type'] = type;
+    data['_id'] = sId;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
     return data;
   }
 }

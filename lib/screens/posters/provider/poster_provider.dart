@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'dart:developer';
 import 'dart:io';
 import '../../../models/api_response.dart';
@@ -6,9 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import '../../../core/data/data_provider.dart';
-import '../../../models/category.dart';
 import '../../../models/poster.dart';
 import '../../../utility/snack_bar_helper.dart';
 
@@ -24,7 +24,6 @@ class PosterProvider extends ChangeNotifier {
 
   PosterProvider(this._dataProvider);
 
-  //TODO: should complete addPoster
   addPoster() async {
     try {
       if (selectedImage == null) {
@@ -55,13 +54,11 @@ class PosterProvider extends ChangeNotifier {
             'Error ${response.body?['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error occurred: $e');
       rethrow;
     }
   }
 
-  //TODO: should complete updatePoster
   updatePoster() async {
     try {
       Map<String, dynamic> fromDataMap = {
@@ -90,13 +87,11 @@ class PosterProvider extends ChangeNotifier {
             'Error ${response.body?['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error occurred $e');
       rethrow;
     }
   }
 
-  //TODO: should complete submitPoster
   submitPoster() {
     if (posterForUpdate != null) {
       updatePoster();
@@ -115,7 +110,6 @@ class PosterProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete deletePoster
   deletePoster(Poster poster) async {
     try {
       Response response = await service.deleteItem(
@@ -133,7 +127,6 @@ class PosterProvider extends ChangeNotifier {
             "Error ${response.body['message'] ?? response.statusText}");
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar(
           'An Error occurred for delete Poster $e');
       rethrow;

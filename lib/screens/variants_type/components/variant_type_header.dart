@@ -5,8 +5,8 @@ import '../../../utility/constants.dart';
 
 class VariantsTypeHeader extends StatelessWidget {
   const VariantsTypeHeader({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

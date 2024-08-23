@@ -73,7 +73,6 @@ class DataProvider extends ChangeNotifier {
     getAllNotifications();
   }
 
-  //TODO: should complete getAllCategory
   Future<List<Category>> getAllCategory({bool showSnack = false}) async {
     try {
       Response response = await service.getItems(endpointUrl: 'categories');
@@ -96,7 +95,6 @@ class DataProvider extends ChangeNotifier {
     return _filteredCategories;
   }
 
-  //TODO: should complete filterCategories
   void filterCategories(String keyword) {
     if (keyword.isEmpty) {
       _filteredCategories = List.from(_allCategories);
@@ -155,7 +153,6 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete getAllBrands
   Future<List<Brand>> getAllBrands({bool showSnack = false}) async {
     try {
       Response response = await service.getItems(endpointUrl: 'brands');
@@ -186,7 +183,6 @@ class DataProvider extends ChangeNotifier {
     return _filteredBrands;
   }
 
-  //TODO: should complete filterBrands
   void filterBrands(String keyword) {
     if (keyword.isEmpty) {
       _filteredBrands = List.from(_allBrands);
@@ -434,7 +430,6 @@ class DataProvider extends ChangeNotifier {
     return _filteredNotifications;
   }
 
-  //TODO: should complete filterNotifications
   void filterNotifications(String keyword) {
     if (keyword.isEmpty) {
       _filteredNotifications = List.from(_allNotifications);

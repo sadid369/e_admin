@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unnecessary_string_interpolations
 
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
@@ -21,7 +21,6 @@ class VariantsTypeProvider extends ChangeNotifier {
 
   VariantsTypeProvider(this._dataProvider);
 
-  //TODO: should complete addVariantType
   addVariantType() async {
     try {
       Map<String, dynamic> variantType = {
@@ -52,7 +51,6 @@ class VariantsTypeProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete updateVariantType
   updateVariantType() async {
     try {
       if (variantTypeForUpdate != null) {
@@ -89,9 +87,6 @@ class VariantsTypeProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete submitVariantType
-
-  //TODO: should complete deleteVariantType
   deleteVariantType(VariantType variant) async {
     try {
       //

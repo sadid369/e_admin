@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
 
 class Responsive extends StatelessWidget {
@@ -6,11 +8,11 @@ class Responsive extends StatelessWidget {
   final Widget desktop;
 
   const Responsive({
-    Key? key,
+    super.key,
     required this.mobile,
     this.tablet,
     required this.desktop,
-  }) : super(key: key);
+  });
 
 // This size work fine on my design, maybe you need some customization depends on your design
 

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'dart:developer';
 
 import 'package:get/get.dart';
@@ -48,7 +50,6 @@ class OrderProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('Error to Update Order $e');
       rethrow;
     }
@@ -56,7 +57,6 @@ class OrderProvider extends ChangeNotifier {
 
   deleteOrder(Order order) async {
     try {
-      //
       Response response = await service.deleteItem(
         endpointUrl: 'orders',
         itemId: order.sId ?? '',
@@ -75,7 +75,6 @@ class OrderProvider extends ChangeNotifier {
             'Error ${response.body['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error occurred for delete Order $e');
       rethrow;
     }

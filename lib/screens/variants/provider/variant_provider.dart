@@ -21,7 +21,6 @@ class VariantsProvider extends ChangeNotifier {
 
   VariantsProvider(this._dataProvider);
 
-  //TODO: should complete addVariant
   addVariant() async {
     try {
       //
@@ -47,13 +46,11 @@ class VariantsProvider extends ChangeNotifier {
             'Failed to Add Subcategory ${response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error Occurred $e');
       rethrow;
     }
   }
 
-  //TODO: should complete updateVariant
   updateVariant() async {
     try {
       //
@@ -85,13 +82,11 @@ class VariantsProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('Error to Update Variant $e');
       rethrow;
     }
   }
 
-  //TODO: should complete submitVariant
   submitVariant() {
     if (variantForUpdate != null) {
       updateVariant();
@@ -100,10 +95,8 @@ class VariantsProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete deleteVariant
   deleteVariant(Variant variant) async {
     try {
-      //
       Response response = await service.deleteItem(
         endpointUrl: 'variants',
         itemId: variant.sId ?? '',
@@ -122,7 +115,6 @@ class VariantsProvider extends ChangeNotifier {
             'Error ${response.body['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar(
           'An Error occurred for delete Variant $e');
       rethrow;

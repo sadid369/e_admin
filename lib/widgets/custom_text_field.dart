@@ -11,13 +11,14 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.onSave,
     this.inputType = TextInputType.text,
     this.lineNumber = 1,
-    this.validator, required this.controller,
-  }) : super(key: key);
+    this.validator,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class CustomTextField extends StatelessWidget {
           labelText: labelText,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(color: secondaryColor),
+            borderSide: const BorderSide(color: secondaryColor),
           ),
         ),
         keyboardType: inputType,
@@ -40,7 +41,8 @@ class CustomTextField extends StatelessWidget {
         validator: validator,
         inputFormatters: [
           LengthLimitingTextInputFormatter(700),
-          if (inputType == TextInputType.number) FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*')),
+          if (inputType == TextInputType.number)
+            FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*')),
         ],
       ),
     );

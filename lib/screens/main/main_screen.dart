@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'components/side_menu.dart';
 
 class MainScreen extends StatelessWidget {
+  const MainScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     context.dataProvider;

@@ -15,7 +15,7 @@ import '../../../widgets/custom_text_field.dart';
 class CouponSubmitForm extends StatelessWidget {
   final Coupon? coupon;
 
-  const CouponSubmitForm({Key? key, this.coupon}) : super(key: key);
+  const CouponSubmitForm({super.key, this.coupon});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class CouponSubmitForm extends StatelessWidget {
         key: context.couponCodeProvider.addCouponFormKey,
         child: Container(
           width: size.width * 0.7,
-          padding: EdgeInsets.all(defaultPadding),
+          padding: const EdgeInsets.all(defaultPadding),
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(12.0),
@@ -34,7 +34,7 @@ class CouponSubmitForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Gap(defaultPadding),
+              const Gap(defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -54,7 +54,7 @@ class CouponSubmitForm extends StatelessWidget {
                     child: CustomDropdown(
                       key: GlobalKey(),
                       hintText: 'Discount Type',
-                      items: ['fixed', 'percentage'],
+                      items: const ['fixed', 'percentage'],
                       initialValue:
                           context.couponCodeProvider.selectedDiscountType,
                       onChanged: (newValue) {
@@ -72,7 +72,7 @@ class CouponSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              Gap(defaultPadding),
+              const Gap(defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -106,7 +106,7 @@ class CouponSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              Gap(defaultPadding),
+              const Gap(defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -116,9 +116,7 @@ class CouponSubmitForm extends StatelessWidget {
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2100),
-                      onDateSelected: (DateTime date) {
-                        print('Selected Date: $date');
-                      },
+                      onDateSelected: (DateTime date) {},
                     ),
                   ),
                   Expanded(
@@ -127,7 +125,7 @@ class CouponSubmitForm extends StatelessWidget {
                       hintText: 'Status',
                       initialValue:
                           context.couponCodeProvider.selectedCouponStatus,
-                      items: ['active', 'inactive'],
+                      items: const ['active', 'inactive'],
                       displayItem: (val) => val,
                       onChanged: (newValue) {
                         context.couponCodeProvider.selectedCouponStatus =
@@ -213,7 +211,7 @@ class CouponSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              Gap(defaultPadding),
+              const Gap(defaultPadding),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -225,9 +223,9 @@ class CouponSubmitForm extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the popup
                     },
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
-                  SizedBox(width: defaultPadding),
+                  const SizedBox(width: defaultPadding),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -245,7 +243,7 @@ class CouponSubmitForm extends StatelessWidget {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
@@ -266,7 +264,7 @@ void showAddCouponForm(BuildContext context, Coupon? coupon) {
         backgroundColor: bgColor,
         title: Center(
             child: Text('Add Coupon'.toUpperCase(),
-                style: TextStyle(color: primaryColor))),
+                style: const TextStyle(color: primaryColor))),
         content: CouponSubmitForm(coupon: coupon),
       );
     },

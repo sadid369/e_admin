@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations, prefer_interpolation_to_compose_strings
+
 import 'dart:developer';
 import 'dart:io';
 import 'package:e_admin/models/api_response.dart';
@@ -53,7 +55,6 @@ class DashBoardProvider extends ChangeNotifier {
 
   DashBoardProvider(this._dataProvider);
 
-  //TODO: should complete addProduct
   addProduct() async {
     try {
       if (selectedMainImage == null) {
@@ -103,13 +104,11 @@ class DashBoardProvider extends ChangeNotifier {
             'Error ${response.body?['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error occurred: $e');
       rethrow;
     }
   }
 
-  //TODO: should complete updateProduct
   updateProduct() async {
     try {
       Map<String, dynamic> fromDataMap = {
@@ -157,13 +156,11 @@ class DashBoardProvider extends ChangeNotifier {
             'Error ${response.body?['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error occurred: $e');
       rethrow;
     }
   }
 
-  //TODO: should complete submitProduct
   submitProduct() {
     if (productForUpdate != null) {
       updateProduct();
@@ -172,7 +169,6 @@ class DashBoardProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete deleteProduct
   deleteProduct(Product product) async {
     try {
       Response response = await service.deleteItem(
@@ -190,7 +186,6 @@ class DashBoardProvider extends ChangeNotifier {
             "Error ${response.body['message'] ?? response.statusText}");
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar(
           'An Error occurred for delete Product $e');
       rethrow;
@@ -240,7 +235,7 @@ class DashBoardProvider extends ChangeNotifier {
             String filePath = imgXFile.path;
             String fileName = filePath.split('/').last;
             formData['image' + (i + 1).toString()] =
-                await MultipartFile(filePath, filename: fileName);
+                MultipartFile(filePath, filename: fileName);
           }
         }
       }
@@ -251,7 +246,6 @@ class DashBoardProvider extends ChangeNotifier {
     return form;
   }
 
-  //TODO: should complete filterSubcategory
   filterSubcategory(Category category) async {
     selectedSubCategory = null;
     selectedBrand = null;
@@ -266,7 +260,6 @@ class DashBoardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete filterBrand
   filterBrand(SubCategory subCategory) async {
     selectedBrand = null;
     selectedSubCategory = subCategory;
@@ -280,7 +273,6 @@ class DashBoardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: should complete filterVariant
   filterVariant(VariantType variantType) async {
     selectedVariants = [];
     selectedVariantType = variantType;

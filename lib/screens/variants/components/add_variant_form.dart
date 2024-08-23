@@ -3,7 +3,6 @@ import '../../../models/variant_type.dart';
 import '../provider/variant_provider.dart';
 import '../../../utility/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../utility/constants.dart';
 import '../../../widgets/custom_dropdown.dart';
@@ -22,7 +21,7 @@ class VariantSubmitForm extends StatelessWidget {
       child: Form(
         key: context.variantProvider.addVariantsFormKey,
         child: Container(
-          padding: EdgeInsets.all(defaultPadding),
+          padding: const EdgeInsets.all(defaultPadding),
           width: size.width * 0.5,
           decoration: BoxDecoration(
             color: bgColor,
@@ -31,7 +30,7 @@ class VariantSubmitForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -73,7 +72,7 @@ class VariantSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: defaultPadding * 2),
+              const SizedBox(height: defaultPadding * 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -85,9 +84,9 @@ class VariantSubmitForm extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the popup
                     },
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
-                  SizedBox(width: defaultPadding),
+                  const SizedBox(width: defaultPadding),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -104,7 +103,7 @@ class VariantSubmitForm extends StatelessWidget {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
@@ -125,7 +124,7 @@ void showAddVariantForm(BuildContext context, Variant? variant) {
         backgroundColor: bgColor,
         title: Center(
             child: Text('Add Variant'.toUpperCase(),
-                style: TextStyle(color: primaryColor))),
+                style: const TextStyle(color: primaryColor))),
         content: VariantSubmitForm(variant: variant),
       );
     },

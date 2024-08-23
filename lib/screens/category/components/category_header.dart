@@ -5,8 +5,8 @@ import '../../../utility/constants.dart';
 
 class CategoryHeader extends StatelessWidget {
   const CategoryHeader({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,8 @@ class CategoryHeader extends StatelessWidget {
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -10,13 +10,13 @@ class ProductImageCard extends StatelessWidget {
   final VoidCallback? onRemoveImage;
 
   const ProductImageCard({
-    Key? key,
+    super.key,
     required this.labelText,
     this.imageFile,
     required this.onTap,
     this.imageUrlForUpdateImage,
     this.onRemoveImage,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class ProductImageCard extends StatelessWidget {
                     )
                   else
                     Icon(Icons.camera_alt, size: 50, color: Colors.grey[600]),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     labelText,
                     style: TextStyle(
@@ -84,7 +84,7 @@ class ProductImageCard extends StatelessWidget {
             top: 0,
             right: 0,
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.close,
                 color: Colors.red,
               ),

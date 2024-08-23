@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'dart:developer';
 
 import 'package:e_admin/models/api_response.dart';
@@ -21,7 +23,6 @@ class BrandProvider extends ChangeNotifier {
 
   BrandProvider(this._dataProvider);
 
-  //TODO: should complete addBrand
   addBrand() async {
     try {
       Map<String, dynamic> brand = {
@@ -46,13 +47,11 @@ class BrandProvider extends ChangeNotifier {
             'Error ${response.body?['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error Occurred: $e ');
       rethrow;
     }
   }
 
-  //TODO: should complete updateBrand
   updateBrand() async {
     try {
       //
@@ -85,18 +84,13 @@ class BrandProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('Error to Update Brand $e');
       rethrow;
     }
   }
 
-  //TODO: should complete submitBrand
-
-  //TODO: should complete deleteBrand
   deleteBrand(Brand brand) async {
     try {
-      //
       Response response = await service.deleteItem(
         endpointUrl: 'brands',
         itemId: brand.sId ?? '',
@@ -115,7 +109,6 @@ class BrandProvider extends ChangeNotifier {
             'Error ${response.body['message'] ?? response.statusText}');
       }
     } catch (e) {
-      print(e);
       SnackBarHelper.showErrorSnackBar('An Error occurred for delete Brand $e');
       rethrow;
     }
